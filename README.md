@@ -1,6 +1,6 @@
 # logictests-console
 
-Exercício  1:
+# Exercício  1:
  
 
 A poker deck contains 52 cards - each card has a suit which is one of clubs, diamonds, hearts, or spades (denoted C, D, H, S in the input data). Each card also has a value which is one of 2, 3, 4, 5, 6, 7, 8, 9, 10, jack, queen, king, ace (denoted 2, 3, 4, 5, 6, 7, 8, 9, T, J, Q, K, A). For scoring purposes, the suits are unordered while the values are ordered as given above, with 2 being the lowest and ace the highest value.
@@ -50,39 +50,22 @@ Tie.
 
  
 
-Exercício 2 :
+# Exercício 2:
 
  
 
 Any set of n integers form n(n − 1)/2 sums by adding every possible pair. Your task is to ﬁnd the n integers given the set of sums.
-
  
 
- 
+Input 
 
-Input
+Each line of input contains n followed by n(n − 1)/2 integer numbers separated by a space, where 2 < n < 10. 
 
- 
+Output 
 
-Each line of input contains n followed by n(n − 1)/2 integer numbers separated by a space, where 2 < n < 10.
+For each line of input, output one line containing n integers in non-descending order such that the input numbers are pairwise sums of the n numbers. If there is more than one solution, any one will do. If there is no solution, print “Impossible”. . . 
 
- 
-
- 
-
-Output
-
- 
-
-For each line of input, output one line containing n integers in non-descending order such that the input numbers are pairwise sums of the n numbers. If there is more than one solution, any one will do. If there is no solution, print “Impossible”. . .
-
- 
-
- 
-
-Sample Input
-
- 
+Sample Input 
 
 3 1269 1160 1663
 
@@ -95,14 +78,9 @@ Sample Input
 5 -1 0 -1 -2 1 0 -1 1 0 -1
 
 5 79950 79936 79942 79962 79954 79972 79960 79968 79924 79932
-
- 
-
  
 
 Sample Output
-
- 
 
 383 777 886
 
