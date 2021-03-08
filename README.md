@@ -36,15 +36,25 @@ For each line of input, print a line containing one of:
    Black wins.
    White wins.
    Tie.
+   
 Sample Input
+
 2H 3D 5S 9C KD 2C 3H 4S 8C AH
+
 2H 4S 4C 2D 4H 2S 8S AS QS 3S
+
 2H 3D 5S 9C KD 2C 3H 4S 8C KH
+
 2H 3D 5S 9C KD 2D 3H 5C 9S KH
+
 Sample Output
+
 White wins.
+
 Black wins.
+
 Black wins.
+
 Tie.
  
 
@@ -67,29 +77,29 @@ For each line of input, output one line containing n integers in non-descending 
 
 Sample Input 
 
-3 1269 1160 1663
+3 1269 1160 1663 
 
-3 1 1 1
+3 1 1 1 
 
-5 226 223 225 224 227 229 228 226 225 227
+5 226 223 225 224 227 229 228 226 225 227 
 
-5 216 210 204 212 220 214 222 208 216 210
+5 216 210 204 212 220 214 222 208 216 210 
 
-5 -1 0 -1 -2 1 0 -1 1 0 -1
+5 -1 0 -1 -2 1 0 -1 1 0 -1 
 
-5 79950 79936 79942 79962 79954 79972 79960 79968 79924 79932
+5 79950 79936 79942 79962 79954 79972 79960 79968 79924 79932 
  
 
 Sample Output
 
-383 777 886
+383 777 886 
 
-Impossible
+Impossible 
 
-111 112 113 114 115
+111 112 113 114 115 
 
-101 103 107 109 113
+101 103 107 109 113 
 
--1 -1 0 0 1
+-1 -1 0 0 1 
 
-39953 39971 39979 39983 39989
+39953 39971 39979 39983 39989 
