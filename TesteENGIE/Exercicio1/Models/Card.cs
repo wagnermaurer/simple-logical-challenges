@@ -2,7 +2,7 @@
 {
     public class Card
     {
-        public string Suit;
+        public readonly string Suit;
         public int Value;
 
         public Card(string cardValue, string cardSuit)
