@@ -50,6 +50,7 @@ namespace ExercioPoker
                 }
                 catch (Exception ex)
                 {
+                    //generic error handling
                     Console.WriteLine($"An error has occurred: \n {ex}");
                     Console.ReadLine();
                 }

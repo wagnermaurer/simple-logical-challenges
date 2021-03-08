@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace Exercicio2
 {
-
     /*     
         SAMPLE INPUT
             3 1269 1160 1663
@@ -25,7 +24,6 @@ namespace Exercicio2
 
     public class Program
     {
-
         public static bool DoAssign(int index, List<int> values, List<bool> taken, List<int> results)
         {
             if (index == values.Count())
@@ -82,39 +80,44 @@ namespace Exercicio2
 
         public static void Main()
         {
-            Console.WriteLine("INPUT:");
-            var input = Console.ReadLine();
-
-            var data = new List<int>();
-            var results = new List<int>();
-            var taken = new List<bool>();
-
-            var n = Convert.ToInt32(input[0]);
-            var limit = (n * (n - 1)) / 2;
-            var values = input.Substring(2)
-                              .Split(" ", StringSplitOptions.None);
-            
-            for (int i = 0; i < values.Count(); i++)
-                data.Add(int.Parse(values[i]));
-
-            data.Sort();
-
-            for (int i = 0; i <= limit; i++)
-                taken.Add(false);
-
-            DoAssign(2, data, taken, results);
-
-            results.Sort();
-
-            if (results.Count() == 0)
-                Console.WriteLine("Impossible\n");
-            else
+            try
             {
-                for (int i = 0; i < results.Count(); i++)
-                    Console.Write(results[i] + " ");
-                Console.WriteLine("\n");
-            }
+                Console.WriteLine("INPUT:");
+                var input = Console.ReadLine();
 
+                var data = new List<int>();
+                var results = new List<int>();
+                var taken = new List<bool>();
+
+                var n = Convert.ToInt32(input[0]);
+                var limit = (n * (n - 1)) / 2;
+                var values = input.Substring(2)
+                                  .Split(" ", StringSplitOptions.None);
+
+                for (int i = 0; i < values.Count(); i++)
+                    data.Add(int.Parse(values[i]));
+                for (int i = 0; i <= limit; i++)
+                    taken.Add(false);
+
+                data.Sort();
+                DoAssign(2, data, taken, results);
+                results.Sort();
+
+                if (results.Count() == 0)
+                    Console.WriteLine("Impossible.");
+                else
+                {
+                    for (int i = 0; i < results.Count(); i++)
+                        Console.Write(results[i] + " ");
+                    Console.WriteLine("\n");
+                }
+            }
+            catch (Exception ex)
+            {
+                //generic error handling
+                Console.WriteLine($"An error has occurred: \n {ex}");
+                Console.ReadLine();
+            }
 
         }
     }
