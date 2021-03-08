@@ -28,10 +28,10 @@ namespace ExercioPoker
                     Console.WriteLine("Insira as cartas dos jogadores (ex: 2H 3D 5S 9C KD 2C 3H 4S 8C AH).\nPressione Ctrl+C para encerrar.");
 
                     var input = Console.ReadLine();
-                    var blacks = new Player(input.Substring(0, 14));
-                    var whites = new Player(input.Substring(15));
+                    var playerOfBlacks = new Player(input.Substring(0, 14));
+                    var playerOfWhites = new Player(input.Substring(15));
 
-                    switch (blacks.CompareTo(whites))
+                    switch (playerOfBlacks.CompareHands(playerOfWhites))
                     {
                         case 1:
                             Console.WriteLine("BLACK wins.");

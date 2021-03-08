@@ -2,45 +2,43 @@
 {
     public class Card
     {
-        public readonly string Suit;
-        public int Value;
+        public int Value { get; private set; }
+        public char Suit { get; private set; }
 
-        public Card(string cardValue, string cardSuit)
+        public Card(
+            char cardValue,
+            char cardSuit
+            )
         {
             ConvertValues(cardValue);
             Suit = cardSuit;
         }
 
         /// <summary>
-        /// Transform from A to K into number.
+        /// Transform card letters into values.
         /// </summary>
         /// <param name="cardValue"></param>
-        private void ConvertValues(string cardValue)
+        private void ConvertValues(char cardValue)
         {
             switch (cardValue)
             {
-                case "A":
-                    Value = 14;
-                    return;
-
-                case "K":
-                    Value = 13;
-                    return;
-
-                case "Q":
-                    Value = 12;
-                    return;
-
-                case "J":
-                    Value = 11;
-                    return;
-
-                case "T":
+                case 'T':
                     Value = 10;
                     return;
-
+                case 'J':
+                    Value = 11;
+                    return;
+                case 'Q':
+                    Value = 12;
+                    return;
+                case 'K':
+                    Value = 13;
+                    return;
+                case 'A':
+                    Value = 14;
+                    return;
                 default:
-                    Value = int.Parse(cardValue);
+                    Value = int.Parse(cardValue.ToString());
                     return;
             }
         }

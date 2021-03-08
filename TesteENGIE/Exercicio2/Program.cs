@@ -24,6 +24,14 @@ namespace Exercicio2
 
     public class Program
     {
+        /// <summary>
+        /// An recursive function 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="values"></param>
+        /// <param name="taken"></param>
+        /// <param name="results"></param>
+        /// <returns></returns>
         public static bool DoAssign(int index, List<int> values, List<bool> taken, List<int> results)
         {
             if (index == values.Count())
@@ -36,12 +44,15 @@ namespace Exercicio2
                 if (index == 2)
                 {
                     double Avd = (values[0] + values[1] - values[i]) / 2.0;
+
+                    //"Impossible" result.
                     if (Avd - (int)Avd > 0.00000001)
                         continue;
 
                     results.Add((int)Avd);
                     results.Add(values[0] - (int)Avd);
                     results.Add(values[1] - (int)Avd);
+
                     taken[i] = true;
                 }
                 else if (index == pivotLoc)
@@ -80,45 +91,57 @@ namespace Exercicio2
 
         public static void Main()
         {
-            try
+
+            Console.WriteLine("Pressione Ctrl+C para encerrar.\n");
+
+            while (true)
             {
-                Console.WriteLine("INPUT:");
-                var input = Console.ReadLine();
-
-                var data = new List<int>();
-                var results = new List<int>();
-                var taken = new List<bool>();
-
-                var n = Convert.ToInt32(input[0]);
-                var limit = (n * (n - 1)) / 2;
-                var values = input.Substring(2)
-                                  .Split(" ", StringSplitOptions.None);
-
-                for (int i = 0; i < values.Count(); i++)
-                    data.Add(int.Parse(values[i]));
-                for (int i = 0; i <= limit; i++)
-                    taken.Add(false);
-
-                data.Sort();
-                DoAssign(2, data, taken, results);
-                results.Sort();
-
-                if (results.Count() == 0)
-                    Console.WriteLine("Impossible.");
-                else
+                try
                 {
-                    for (int i = 0; i < results.Count(); i++)
-                        Console.Write(results[i] + " ");
+                    Console.Write("INPUT: ");
+                    var input = Console.ReadLine();
+
+                    var data = new List<int>();
+                    var results = new List<int>();
+                    var taken = new List<bool>();
+
+                    var n = Convert.ToInt32(input[0]);
+                    var limit = (n * (n - 1)) / 2;
+                    var values = input.Substring(2)
+                                      .Split(" ", StringSplitOptions.None);
+
+                    for (int i = 0; i < values.Count(); i++)
+                        data.Add(int.Parse(values[i]));
+                    for (int i = 0; i <= limit; i++)
+                        taken.Add(false);
+
+                    //Initial ascending ordering 
+                    data.Sort();
+
+                    DoAssign(2, data, taken, results);
+
+                    //Ordering for final display
+                    results.Sort();
+
+                    Console.Write("OUTPUT: ");
+
+                    if (results.Count() == 0)
+                        Console.Write("Impossible.");
+                    else
+                        for (int i = 0; i < results.Count(); i++)
+                            Console.Write(results[i] + " ");
+
+                    //cleaning buffer for copy & paste input
+                    Console.ReadLine();
                     Console.WriteLine("\n");
                 }
+                catch (Exception ex)
+                {
+                    //generic error handling
+                    Console.WriteLine($"An error has occurred: \n {ex}");
+                    Console.ReadLine();
+                }
             }
-            catch (Exception ex)
-            {
-                //generic error handling
-                Console.WriteLine($"An error has occurred: \n {ex}");
-                Console.ReadLine();
-            }
-
         }
     }
 }

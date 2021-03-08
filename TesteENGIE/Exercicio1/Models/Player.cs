@@ -6,36 +6,24 @@ namespace ExercioPoker.Models
 {
     public class Player
     {
-        public List<int> ComparationValues;
+        private readonly int CARDS_ON_HAND = 5;
 
-        private readonly List<Card> Cards;
-        private readonly HandRank Rank;
+        private readonly IList<int> ValuesOnHand;
+        private readonly IList<Card> Cards;
+        private HandRank Rank;
 
         public Player(string cardsStr)
         {
-            //manually substringing cards
-            Cards = new List<Card>
-            {
-                new Card(cardsStr[0].ToString(), cardsStr[1].ToString()),
-                new Card(cardsStr[3].ToString(), cardsStr[4].ToString()),
-                new Card(cardsStr[6].ToString(), cardsStr[7].ToString()),
-                new Card(cardsStr[9].ToString(), cardsStr[10].ToString()),
-                new Card(cardsStr[12].ToString(), cardsStr[13].ToString())
-            };
-            Cards.OrderBy(x => x.Value);
+            Cards = new List<Card>();
+            ValuesOnHand = new List<int>();
 
-            //hands of 5 cards for both
-            ComparationValues = new List<int> { 0, 0, 0, 0, 0 };
-
-            Rank = getHandRank();
-            setValueCardsToCompare();
+            SetHand(cardsStr);
         }
-        public int CompareTo(Player otherPlayer)
+        public int CompareHands(Player otherPlayer)
         {
             //Black Wins
             if (Rank > otherPlayer.Rank)
                 return 1;
-
             //White Wins
             if (Rank < otherPlayer.Rank)
                 return -1;
@@ -43,11 +31,10 @@ namespace ExercioPoker.Models
             for (var i = 0; i < 5; i++)
             {
                 //Black wins in case of higher card
-                if (ComparationValues[i] > otherPlayer.ComparationValues[i])
+                if (ValuesOnHand[i] > otherPlayer.ValuesOnHand[i])
                     return 1;
-
                 //White wins in case of higher card
-                if (ComparationValues[i] < otherPlayer.ComparationValues[i])
+                if (ValuesOnHand[i] < otherPlayer.ValuesOnHand[i])
                     return -1;
             }
 
@@ -57,20 +44,34 @@ namespace ExercioPoker.Models
 
         #region Private Methods
 
-        private HandRank getHandRank()
+        private void SetHand(string cardsStr)
         {
-            var isStraightFlush = hasStraightFlush();            
-            var isFourKind = hasFourOfAKind();
-            var isThreeKind = hasThreeOfAKind();
-            var isFlush = hasFlush();
-            var numberOfPairs = getNumberOfPairs();
+            for (int i = 0; i < (CARDS_ON_HAND * 3); i += 3)
+                Cards.Add(new Card(cardsStr[i], cardsStr[i + 1]));
+
+            for (int i = 0; i < CARDS_ON_HAND; i++)
+                ValuesOnHand.Add(0);
+
+            Cards.OrderBy(x => x.Value);
+
+            Rank = GetHandRank();
+            SetValueCardsToCompare();
+        }
+
+        private HandRank GetHandRank()
+        {
+            var isStraightFlush = HasStraightFlush();
+            var isFourKind = HasFourOfAKind();
+            var isThreeKind = HasThreeOfAKind();
+            var isFlush = HasFlush();
+            var numberOfPairs = GetNumberOfPairs();
 
             //Check ranks in order of importante
 
             if (isStraightFlush)
                 return HandRank.STRAIGHT_FLUSH;
             if (isFourKind)
-                return HandRank.FOUR_KIND;
+                return HandRank.FOUR_OF_A_KIND;
             if (isThreeKind && numberOfPairs == 2)
                 return HandRank.FULL_HOUSE;
             if (isFlush)
@@ -78,22 +79,22 @@ namespace ExercioPoker.Models
             if (isStraightFlush)
                 return HandRank.STRAIGHT;
             if (isThreeKind)
-                return HandRank.THREE_KIND;
+                return HandRank.THREE_OF_A_KIND;
             if (numberOfPairs == 2)
-                return HandRank.TWO_PAIR;
+                return HandRank.TWO_PAIRS;
             if (numberOfPairs == 1)
-                return HandRank.PAIR;
+                return HandRank.ONE_PAIR;
 
             return HandRank.HIGH_CARD;
         }
-        private void setValueCardsToCompare()
+        private void SetValueCardsToCompare()
         {
             switch (Rank)
             {
                 case HandRank.STRAIGHT_FLUSH:
                 case HandRank.STRAIGHT:
                     {
-                        ComparationValues[0] = Cards[4].Value;
+                        ValuesOnHand[0] = Cards[4].Value;
                         return;
                     }
 
@@ -102,46 +103,46 @@ namespace ExercioPoker.Models
                     {
                         for (var i = 0; i < 5; ++i)
                         {
-                            ComparationValues[i] = Cards[4 - i].Value;
+                            ValuesOnHand[i] = Cards[4 - i].Value;
                         }
                         return;
                     }
 
                 case HandRank.FULL_HOUSE:
-                case HandRank.FOUR_KIND:
-                case HandRank.THREE_KIND:
+                case HandRank.FOUR_OF_A_KIND:
+                case HandRank.THREE_OF_A_KIND:
                     {
-                        ComparationValues[0] = Cards[2].Value;
+                        ValuesOnHand[0] = Cards[2].Value;
                         return;
                     }
 
-                case HandRank.TWO_PAIR:
+                case HandRank.TWO_PAIRS:
                     {
                         if (Cards[0].Value != Cards[1].Value)
                         {
                             //5 77 88
-                            ComparationValues[0] = Cards[4].Value;
-                            ComparationValues[1] = Cards[2].Value;
-                            ComparationValues[2] = Cards[0].Value;
+                            ValuesOnHand[0] = Cards[4].Value;
+                            ValuesOnHand[1] = Cards[2].Value;
+                            ValuesOnHand[2] = Cards[0].Value;
                         }
                         else if (Cards[2].Value != Cards[3].Value)
                         {
                             //22 8 33
-                            ComparationValues[0] = Cards[4].Value;
-                            ComparationValues[1] = Cards[0].Value;
-                            ComparationValues[2] = Cards[2].Value;
+                            ValuesOnHand[0] = Cards[4].Value;
+                            ValuesOnHand[1] = Cards[0].Value;
+                            ValuesOnHand[2] = Cards[2].Value;
                         }
                         else
                         {
                             //88 66 7
-                            ComparationValues[0] = Cards[2].Value;
-                            ComparationValues[1] = Cards[0].Value;
-                            ComparationValues[2] = Cards[4].Value;
+                            ValuesOnHand[0] = Cards[2].Value;
+                            ValuesOnHand[1] = Cards[0].Value;
+                            ValuesOnHand[2] = Cards[4].Value;
                         }
                         return;
                     }
 
-                case HandRank.PAIR:
+                case HandRank.ONE_PAIR:
                     {
                         var pairValue = 0;
                         for (int num = 0; num < 3; ++num)
@@ -152,20 +153,20 @@ namespace ExercioPoker.Models
                                 break;
                             }
                         }
-                        ComparationValues[0] = pairValue;
+                        ValuesOnHand[0] = pairValue;
 
                         for (int num = 4, value = 1; num >= 0; num--)
                         {
                             if (Cards[num].Value == pairValue)
                                 continue;
 
-                            ComparationValues[value++] = Cards[num].Value;
+                            ValuesOnHand[value++] = Cards[num].Value;
                         }
                         break;
-                    }                 
+                    }
             }
         }
-        private bool hasStraightFlush()
+        private bool HasStraightFlush()
         {
             for (var i = 0; i < 4; i++)
                 if (Cards[i].Value + 1 != Cards[i + 1].Value)
@@ -173,7 +174,7 @@ namespace ExercioPoker.Models
 
             return true;
         }
-        private bool hasFlush()
+        private bool HasFlush()
         {
             for (var i = 0; i < 4; i++)
                 if (Cards[i].Suit != Cards[i + 1].Suit)
@@ -181,7 +182,7 @@ namespace ExercioPoker.Models
 
             return true;
         }
-        private bool hasFourOfAKind()
+        private bool HasFourOfAKind()
         {
             if (Cards[0].Value == Cards[1].Value && Cards[1].Value == Cards[2].Value && Cards[2].Value == Cards[3].Value)
                 return true;
@@ -190,7 +191,7 @@ namespace ExercioPoker.Models
 
             return false;
         }
-        private bool hasThreeOfAKind()
+        private bool HasThreeOfAKind()
         {
             if (Cards[0].Value == Cards[2].Value)
                 return true;
@@ -203,7 +204,7 @@ namespace ExercioPoker.Models
 
             return false;
         }
-        private int getNumberOfPairs()
+        private int GetNumberOfPairs()
         {
             var counter = 0;
             for (var num = 0; num < 4; num++)
