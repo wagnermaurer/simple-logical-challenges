@@ -3,6 +3,9 @@ using ExercioPoker.Models;
 
 namespace ExercioPoker
 {
+
+    //Just a quick code change to test web VS Code
+
     /*     
          SAMPLE INPUT
             2H 3D 5S 9C KD 2C 3H 4S 8C AH
